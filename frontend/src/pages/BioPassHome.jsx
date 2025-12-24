@@ -774,6 +774,16 @@ export default function BioPassHome() {
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={() => navigate("/memory")}
+                className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
+                data-testid="memory-btn"
+                title="Agent Memories"
+              >
+                <Activity className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => navigate("/wallet")}
                 className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
                 data-testid="wallet-btn"
