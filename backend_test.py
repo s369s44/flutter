@@ -161,7 +161,43 @@ class BioPassSwarmTester:
             self.log_test("Session Creation", False, f"Error: {str(e)}")
             return False
 
-    def test_session_get(self) -> bool:
+    def test_apps_list(self) -> bool:
+        """Test apps list endpoint"""
+        try:
+            response = requests.get(f"{self.base_url}/apps/list", timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["apps", "categories"]
+                has_keys = all(key in data for key in required_keys)
+                
+                if has_keys:
+                    apps = data.get("apps", [])
+                    categories = data.get("categories", [])
+                    
+                    # Check if we have apps and categories
+                    success = (len(apps) > 0 and len(categories) > 0)
+                    
+                    if success:
+                        # Check app structure
+                        first_app = apps[0] if apps else {}
+                        app_keys = ["app_id", "app_name", "category", "icon"]
+                        success = all(key in first_app for key in app_keys)
+                else:
+                    success = False
+                
+            self.log_test(
+                "Apps List",
+                success,
+                f"Status: {response.status_code}, Apps: {len(data.get('apps', []))}, Categories: {len(data.get('categories', []))}",
+                {"apps_count": len(data.get("apps", [])), "categories": data.get("categories", [])} if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Apps List", False, f"Error: {str(e)}")
+            return False
         """Test getting session details"""
         if not self.session_id:
             self.log_test("Get Session", False, "No session ID available")
