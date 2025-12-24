@@ -159,6 +159,13 @@ export default function BioPassHome() {
   // App lock states
   const [apps, setApps] = useState([]);
   const [lockedApps, setLockedApps] = useState([]);
+  // Vault states
+  const [vaultFiles, setVaultFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showVaultModal, setShowVaultModal] = useState(false);
+  const [emailForId, setEmailForId] = useState("");
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   const [deviceLock, setDeviceLock] = useState({
     full: false,
     media: false,
