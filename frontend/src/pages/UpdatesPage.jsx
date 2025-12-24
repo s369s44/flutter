@@ -393,7 +393,7 @@ export default function UpdatesPage() {
           className="mt-8 text-center"
         >
           <p className="text-xs text-slate-500">
-            All Rights Reserved ©️ SoftTechX
+            All Rights Reserved ©️SoftTechX Ltd
           </p>
         </motion.div>
       </div>

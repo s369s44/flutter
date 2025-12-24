@@ -1686,7 +1686,7 @@ export default function BioPassHome() {
         {/* Footer */}
         <footer className="biopass-footer">
           <p className="copyright" data-testid="copyright">
-            All Rights Reserved ©️ SoftTechX
+            All Rights Reserved ©️SoftTechX Ltd
           </p>
         </footer>
       </div>
