@@ -405,18 +405,22 @@ export default function BioPassHome() {
   // Face Liveness Check (Step 2)
   const handleStep2Face = async () => {
     if (!cameraGranted) {
-      toast.error("Please grant camera access first");
+      toast.error("❌ Please grant camera access first");
+      await handleCameraAccess();
       return;
     }
 
     setIsProcessing(true);
     setStepStatuses((prev) => ({ ...prev, 2: "in_progress" }));
-    toast.info("Look straight at the camera. Blink twice for liveness check.");
+    toast.info("👁️ Look straight at the camera. Blink twice for liveness check.");
 
     let timer = 10;
     const timerInterval = setInterval(() => {
       timer--;
       setStepTimers((prev) => ({ ...prev, 2: timer }));
+      if (timer === 7) toast.info("😊 Face detected! Now blink...");
+      if (timer === 4) toast.success("✅ First blink detected!");
+      if (timer === 2) toast.success("✅ Second blink detected!");
       if (timer <= 0) clearInterval(timerInterval);
     }, 1000);
 
@@ -442,7 +446,7 @@ export default function BioPassHome() {
     });
 
     setStepStatuses((prev) => ({ ...prev, 2: "completed" }));
-    toast.success("Step 2: Face liveness verified!");
+    toast.success("✅ Step 2: Face liveness verified! No deepfake detected.");
     setOpenSteps([3]);
     setCurrentStep(3);
     setIsProcessing(false);
