@@ -168,6 +168,13 @@ async def complete_enrollment(session_id: str, data: EnrollmentComplete):
         "created_at": datetime.now(timezone.utc).isoformat()
     })
     
+    # Log to ultra memory
+    coordinator.add_ultra_memory(
+        "biometric",
+        f"User enrolled: {user_id}",
+        {"algorithm": keypair["algorithm"], "guardians": 7, "threshold": 5}
+    )
+    
     return {
         "status": "enrollment_complete",
         "user_id": user_id,
