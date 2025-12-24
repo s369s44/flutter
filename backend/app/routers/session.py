@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from Crypto.Random import get_random_bytes
 
 from ..database import db
+    EnrollmentEmailRequest,
 from ..config import BIOPASS_API_URL
 from ..models import (
     SessionCreate, BiometricStepData, EnrollmentComplete, 
