@@ -253,6 +253,14 @@ export default function BioPassHome() {
       }
     };
   }, [cameraStream]);
+  
+  // Auto-play video when stream is available
+  useEffect(() => {
+    if (cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+      videoRef.current.play().catch(e => console.log("Auto-play error:", e));
+    }
+  }, [cameraStream]);
 
   // Fetch locked apps when session changes
   useEffect(() => {
