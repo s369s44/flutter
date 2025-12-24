@@ -602,6 +602,84 @@ export default function BioPassHome() {
       cameraStream.getTracks().forEach((track) => track.stop());
       setCameraStream(null);
     }
+  // Vault Handlers
+  const fetchVaultFiles = useCallback(async () => {
+    if (!sessionId) return;
+    try {
+      const res = await axios.get(`${API_URL}/vault/list/${sessionId}`);
+      setVaultFiles(res.data.files);
+    } catch (error) {
+      console.error("Fetch files error:", error);
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (activeTab === "vault") {
+      fetchVaultFiles();
+    }
+  }, [activeTab, fetchVaultFiles]);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("session_id", sessionId);
+
+    setIsUploading(true);
+    try {
+      await axios.post(`${API_URL}/vault/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      toast.success("File encrypted & uploaded to Vault");
+      fetchVaultFiles();
+    } catch (error) {
+      toast.error("Upload failed");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const toggleFileLock = async (fileId, currentLockStatus) => {
+    try {
+      await axios.post(`${API_URL}/vault/lock/${fileId}?locked=${!currentLockStatus}`);
+      toast.success(currentLockStatus ? "File Unlocked" : "File Locked");
+      fetchVaultFiles();
+    } catch (error) {
+      toast.error("Failed to update lock status");
+    }
+  };
+
+  const deleteFile = async (fileId) => {
+    if (!window.confirm("Are you sure? This file will be permanently destroyed.")) return;
+    try {
+      await axios.delete(`${API_URL}/vault/delete/${fileId}`);
+      toast.success("File destroyed");
+      fetchVaultFiles();
+    } catch (error) {
+      toast.error("Delete failed");
+    }
+  };
+
+  // Email Handler
+  const handleSendEmail = async () => {
+    if (!emailForId) {
+      toast.error("Please enter an email");
+      return;
+    }
+    try {
+      await axios.post(`${API_URL}/session/send-id-email`, {
+        session_id: sessionId,
+        email: emailForId
+      });
+      toast.success(`ID sent to ${emailForId}`);
+      setShowEmailModal(false);
+    } catch (error) {
+      toast.error("Failed to send email");
+    }
+  };
+
     setCameraGranted(false);
     setWebAuthnGranted(false);
     setStepStatuses({ 1: "pending", 2: "pending", 3: "pending" });
