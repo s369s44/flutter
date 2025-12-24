@@ -354,10 +354,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Complete BioPass Swarm Flow Testing"
+    - "Homepage Load & Navigation"
+    - "Auth Page Flow"
+    - "Enrollment Tab Features"
+    - "Responsive Design & UI Elements"
   stuck_tasks: []
   test_all: true
-  test_priority: "sequential"
+  test_priority: "high_first"
 
 agent_communication:
     - agent: "testing"
