@@ -380,6 +380,8 @@ export default function BioPassHome() {
       setCameraGranted(true);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // IMPORTANT: Must call play() to display video
+        videoRef.current.play().catch(e => console.log("Video play error:", e));
       }
       toast.success("Camera access granted!");
     } catch (error) {
