@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 class BioPassFlowTester:
-    def __init__(self, base_url: str = "https://swarm-auth.preview.emergentagent.com"):
+    def __init__(self, base_url: str = "https://jovial-hugle.preview.emergentagent.com"):
         self.base_url = base_url
         self.session_id = None
         self.user_id = None
