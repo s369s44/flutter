@@ -44,6 +44,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# ============ HEALTH CHECK ENDPOINT ============
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Kubernetes deployment"""
+    return {"status": "healthy", "service": "biopass-swarm"}
+
+
 # ============ GUARDIAN AGENTS ============
 
 class GuardianAgent:
