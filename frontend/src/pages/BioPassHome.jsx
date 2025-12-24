@@ -1800,6 +1800,41 @@ export default function BioPassHome() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {/* Email Modal */}
+      <Dialog open={showEmailModal} onOpenChange={setShowEmailModal}>
+        <DialogContent className="bg-[#0A0A1A] border-white/10 text-white max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-heading text-cyan-400 flex items-center gap-2">
+              <Mail className="w-5 h-5" />
+              Email User ID
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Send your secure User ID to your email for safekeeping.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4">
+            <label className="text-xs text-slate-400 mb-1 block">Email Address</label>
+            <Input
+              type="email"
+              value={emailForId}
+              onChange={(e) => setEmailForId(e.target.value)}
+              placeholder="you@example.com"
+              className="bg-white/5 border-white/10 text-white"
+            />
+          </div>
+
+          <DialogFooter>
+            <Button
+              onClick={handleSendEmail}
+              className="w-full bg-cyan-400 text-black hover:bg-cyan-300"
+            >
+              Send Email
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
 
       {/* Hidden canvas */}
       <canvas ref={canvasRef} style={{ display: "none" }} />
