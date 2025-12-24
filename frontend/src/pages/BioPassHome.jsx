@@ -769,18 +769,7 @@ export default function BioPassHome() {
                 data-testid="privacy-btn"
               >
                 <FileText className="w-4 h-4" />
- 
               </Button>
-            <TabsTrigger
-              value="vault"
-              disabled={!enrollmentComplete}
-              className="data-[state=active]:bg-cyan-400/20 data-[state=active]:text-cyan-400"
-              data-testid="tab-vault"
-            >
-              <Lock className="w-4 h-4 mr-2" />
-              Vault
-            </TabsTrigger>
-
               <Button
                 variant="ghost"
                 size="icon"
