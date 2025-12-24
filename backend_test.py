@@ -68,7 +68,56 @@ class BioPassSwarmTester:
             self.log_test("API Root Endpoint (v2.0)", False, f"Error: {str(e)}")
             return False
 
-    def test_session_create(self) -> bool:
+    def test_guardians_status(self) -> bool:
+        """Test guardians status endpoint - should return 7 guardians + coordinator"""
+        try:
+            response = requests.get(f"{self.base_url}/guardians/status", timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["coordinator", "guardians", "system_ready"]
+                has_keys = all(key in data for key in required_keys)
+                
+                if has_keys:
+                    # Check coordinator
+                    coordinator = data.get("coordinator", {})
+                    coord_valid = (coordinator.get("name") == "Coordinator" and
+                                 coordinator.get("threshold") == "5-of-7")
+                    
+                    # Check guardians
+                    guardians = data.get("guardians", [])
+                    guardians_valid = len(guardians) == 7
+                    
+                    if guardians_valid:
+                        # Check guardian names and regions
+                        expected_names = ["Guardian-Alpha", "Guardian-Beta", "Guardian-Gamma", 
+                                        "Guardian-Delta", "Guardian-Epsilon", "Guardian-Zeta", "Guardian-Eta"]
+                        expected_regions = ["North", "South", "East", "West", "Central", "Pacific", "Atlantic"]
+                        
+                        actual_names = [g.get("name") for g in guardians]
+                        actual_regions = [g.get("region") for g in guardians]
+                        
+                        names_match = set(actual_names) == set(expected_names)
+                        regions_match = set(actual_regions) == set(expected_regions)
+                        
+                        guardians_valid = names_match and regions_match
+                    
+                    success = coord_valid and guardians_valid
+                else:
+                    success = False
+                
+            self.log_test(
+                "Guardians Status (7 Guardians + Coordinator)",
+                success,
+                f"Status: {response.status_code}, Guardians: {len(data.get('guardians', []))}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Guardians Status", False, f"Error: {str(e)}")
+            return False
         """Test session creation with quantum keys"""
         try:
             payload = {
