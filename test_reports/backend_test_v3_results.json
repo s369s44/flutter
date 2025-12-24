@@ -1,0 +1,134 @@
+{
+  "test_run": "BioPass Swarm v3.0 Backend Tests",
+  "timestamp": "2025-12-24T15:41:24.462080",
+  "summary": {
+    "total_tests": 8,
+    "passed_tests": 8,
+    "success_rate": "100.0%"
+  },
+  "results": [
+    {
+      "test": "API Root Endpoint",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "message": "BioPass Swarm API v2.0 - Multi-Agent Architecture",
+        "status": "active",
+        "guardians": 7,
+        "threshold": "5-of-7",
+        "encryption": "CRYSTALS-Kyber-1024 + Dilithium-5"
+      },
+      "timestamp": "2025-12-24T15:41:24.211859"
+    },
+    {
+      "test": "Guardians Status",
+      "success": true,
+      "details": "Guardians count: 7, Has coordinator: True",
+      "response_data": {
+        "guardian_count": 7,
+        "has_coordinator": true
+      },
+      "timestamp": "2025-12-24T15:41:24.252102"
+    },
+    {
+      "test": "Session Creation",
+      "success": true,
+      "details": "Session ID: 54d079f8...",
+      "response_data": {
+        "has_session_id": true,
+        "guardians_ready": 7
+      },
+      "timestamp": "2025-12-24T15:41:24.293014"
+    },
+    {
+      "test": "Permissions Status",
+      "success": true,
+      "details": "Fields present: encryption=True, guardians=True, security_features=True",
+      "response_data": {
+        "encryption": {
+          "algorithm": "CRYSTALS-Kyber-1024 + Dilithium-5",
+          "key_size": "256-bit AES-GCM",
+          "post_quantum": true,
+          "nist_level": 5
+        },
+        "guardians": {
+          "total": 7,
+          "threshold": "5-of-7",
+          "regions": [
+            "North",
+            "South",
+            "East",
+            "West",
+            "Central",
+            "Pacific",
+            "Atlantic"
+          ]
+        },
+        "security_features": [
+          "Shamir's Secret Sharing",
+          "8-second auto-destruct",
+          "Anti-deepfake liveness detection",
+          "Heartbeat PPG verification",
+          "On-device processing only",
+          "Zero cloud storage"
+        ],
+        "access_permissions": [
+          {
+            "name": "Camera",
+            "purpose": "Face liveness & heartbeat PPG",
+            "required": true
+          },
+          {
+            "name": "WebAuthn",
+            "purpose": "Fingerprint/biometric",
+            "required": true
+          },
+          {
+            "name": "Local Storage",
+            "purpose": "Encrypted key storage",
+            "required": true
+          }
+        ]
+      },
+      "timestamp": "2025-12-24T15:41:24.325501"
+    },
+    {
+      "test": "Auth Signup",
+      "success": true,
+      "details": "Email: test_v3_154124@biopass.test",
+      "response_data": {
+        "success": true,
+        "message": "Account created. Complete biometric enrollment to get your Bio Key.",
+        "temp_token": "RCNIVbSZWMwHFTe65FALRsLNpyP7mO4jdrCLucbCwxc="
+      },
+      "timestamp": "2025-12-24T15:41:24.360665"
+    },
+    {
+      "test": "Auth Signin",
+      "success": true,
+      "details": "Token received",
+      "response_data": {
+        "has_token": true
+      },
+      "timestamp": "2025-12-24T15:41:24.394486"
+    },
+    {
+      "test": "Bio Key Signin",
+      "success": true,
+      "details": "Expected 401 for invalid key, got 401",
+      "response_data": {
+        "detail": "Invalid Bio Key"
+      },
+      "timestamp": "2025-12-24T15:41:24.430046"
+    },
+    {
+      "test": "Wallet Endpoint",
+      "success": true,
+      "details": "Expected 404 for non-existent user, got 404",
+      "response_data": {
+        "detail": "Wallet not found"
+      },
+      "timestamp": "2025-12-24T15:41:24.461492"
+    }
+  ]
+}
