@@ -5,6 +5,11 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate, Link } from "react-router-dom";
 import {
+  RefreshCw,
+  Trash2,
+  Upload,
+  File,
+  Mail,
   ShieldCheck,
   Fingerprint,
   Camera,
