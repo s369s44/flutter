@@ -1,0 +1,132 @@
+{
+  "total_tests": 11,
+  "passed_tests": 11,
+  "success_rate": 100.0,
+  "test_results": [
+    {
+      "test_name": "API Root Endpoint",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "message": "BioPass Swarm API v1.0",
+        "status": "active"
+      },
+      "timestamp": "2025-12-24T12:21:20.108281"
+    },
+    {
+      "test_name": "Session Creation",
+      "success": true,
+      "details": "Status: 200, Session ID: e9a67c2c-ce1f-41f4-a961-20183193b4cc",
+      "response_data": {
+        "session_id": "e9a67c2c-ce1f-41f4-a961-20183193b4cc",
+        "public_key": "195eHuRYUmyQLHi0fkB9KQwjLRgJSbxftJCVaFqdhCo=",
+        "device_type": "web",
+        "quantum_algorithm": "CRYSTALS-Kyber-1024"
+      },
+      "timestamp": "2025-12-24T12:21:20.143056"
+    },
+    {
+      "test_name": "Get Session",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "id": "e9a67c2c-ce1f-41f4-a961-20183193b4cc",
+        "device_type": "web",
+        "region": "USA",
+        "language": "English",
+        "webauthn_status": false,
+        "camera_status": false,
+        "current_step": 0,
+        "enrollment_complete": false,
+        "created_at": "2025-12-24T12:21:20.140197+00:00",
+        "kyber_public_key": "195eHuRYUmyQLHi0fkB9KQwjLRgJSbxftJCVaFqdhCo="
+      },
+      "timestamp": "2025-12-24T12:21:20.182685"
+    },
+    {
+      "test_name": "Update Permissions",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "updated",
+        "permissions": {
+          "webauthn_status": true,
+          "camera_status": true
+        }
+      },
+      "timestamp": "2025-12-24T12:21:20.260038"
+    },
+    {
+      "test_name": "Update Step",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "updated",
+        "step": 1
+      },
+      "timestamp": "2025-12-24T12:21:20.321457"
+    },
+    {
+      "test_name": "Quantum Challenge",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "challenge": "3z4UgMEjMKxFiFKHW5J4+1qDbg+/s9slKrG2vxaMOPo=",
+        "public_key": "HuBnHuuH3sYcVw51/GVKylFa6ruMJKczJDnznG7BxdE=",
+        "signature": "NzXcAamETDKykas0GYfNrgG5fcIEXgo8JCuUVq3d9D+fzrcLoF4DpFYNyZ4JVtjmyNIruK2k8Dk+xfIjvjKHAg==",
+        "algorithm": "CRYSTALS-Dilithium-5 + Kyber-1024",
+        "external_response": "{\"id\":\"M1BPS018\",\"name\":\"APIEndpoint\",\"result\":{\"_error\":\"Quantum Challenge component requires credits: Your free credits have been exhausted. Please upgrade your plan.\"}}",
+        "expires_in": 300
+      },
+      "timestamp": "2025-12-24T12:21:20.915950"
+    },
+    {
+      "test_name": "Chat Endpoint (Claude)",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "response_length": 1303
+      },
+      "timestamp": "2025-12-24T12:21:32.236030"
+    },
+    {
+      "test_name": "Recovery Email",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "saved",
+        "email": "test@biopass.com"
+      },
+      "timestamp": "2025-12-24T12:21:32.289788"
+    },
+    {
+      "test_name": "External API Status",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "connected",
+        "data": "{\"id\":\"M1BPS011\",\"name\":\"APIEndpoint\",\"result\":{\"_error\":\"Status Check component requires credits: Your free credits have been exhausted. Please upgrade your plan.\"}}"
+      },
+      "timestamp": "2025-12-24T12:21:32.753103"
+    },
+    {
+      "test_name": "External Privacy Policy",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "policy_length": 168
+      },
+      "timestamp": "2025-12-24T12:21:33.157347"
+    },
+    {
+      "test_name": "External Usage Guide",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "guide_length": 165
+      },
+      "timestamp": "2025-12-24T12:21:33.574486"
+    }
+  ],
+  "session_id": "e9a67c2c-ce1f-41f4-a961-20183193b4cc"
+}
