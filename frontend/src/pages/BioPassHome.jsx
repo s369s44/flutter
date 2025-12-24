@@ -109,11 +109,14 @@ const APP_ICONS = {
 };
 
 export default function BioPassHome() {
+  const navigate = useNavigate();
+  
   // Session state
   const [sessionId, setSessionId] = useState(null);
   const [deviceType, setDeviceType] = useState("Web Interface");
   const [userId, setUserId] = useState(null);
   const [enrollmentComplete, setEnrollmentComplete] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Permission states
   const [webAuthnGranted, setWebAuthnGranted] = useState(false);
