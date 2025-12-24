@@ -178,6 +178,17 @@ export default function BioPassHome() {
   ).length;
   const progress = (completedSteps / 3) * 100;
 
+  // Check for existing login
+  useEffect(() => {
+    const token = localStorage.getItem("biopass_token");
+    const storedUserId = localStorage.getItem("biopass_user_id");
+    if (token && storedUserId) {
+      setIsLoggedIn(true);
+      setUserId(storedUserId);
+      setEnrollmentComplete(true);
+    }
+  }, []);
+
   // Initialize session and fetch guardians
   useEffect(() => {
     const initSession = async () => {
@@ -210,6 +221,16 @@ export default function BioPassHome() {
 
     initSession();
   }, []);
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("biopass_token");
+    localStorage.removeItem("biopass_user_id");
+    setIsLoggedIn(false);
+    setUserId(null);
+    setEnrollmentComplete(false);
+    toast.success("Logged out successfully");
+  };
 
   // Cleanup camera
   useEffect(() => {
