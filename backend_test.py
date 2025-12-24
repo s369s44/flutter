@@ -1,0 +1,463 @@
+#!/usr/bin/env python3
+"""
+BioPass Swarm Backend API Testing Suite
+Tests all backend endpoints for functionality and integration
+"""
+
+import requests
+import sys
+import json
+from datetime import datetime
+from typing import Dict, Any, Optional
+
+class BioPassAPITester:
+    def __init__(self, base_url: str = "https://secure-biopass.preview.emergentagent.com/api"):
+        self.base_url = base_url
+        self.session_id = None
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+        
+    def log_test(self, name: str, success: bool, details: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            
+        result = {
+            "test_name": name,
+            "success": success,
+            "details": details,
+            "response_data": response_data,
+            "timestamp": datetime.now().isoformat()
+        }
+        self.test_results.append(result)
+        
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} - {name}")
+        if details:
+            print(f"    Details: {details}")
+        if not success and response_data:
+            print(f"    Response: {response_data}")
+        print()
+
+    def test_api_root(self) -> bool:
+        """Test API root endpoint"""
+        try:
+            response = requests.get(f"{self.base_url}/", timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                expected_keys = ["message", "status"]
+                has_keys = all(key in data for key in expected_keys)
+                success = has_keys and "BioPass Swarm" in data.get("message", "")
+                
+            self.log_test(
+                "API Root Endpoint", 
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("API Root Endpoint", False, f"Error: {str(e)}")
+            return False
+
+    def test_session_create(self) -> bool:
+        """Test session creation with quantum keys"""
+        try:
+            payload = {
+                "device_type": "web",
+                "region": "USA",
+                "language": "English"
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/session/create",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["session_id", "public_key", "device_type", "quantum_algorithm"]
+                has_keys = all(key in data for key in required_keys)
+                
+                if has_keys:
+                    self.session_id = data["session_id"]
+                    success = data["quantum_algorithm"] == "CRYSTALS-Kyber-1024"
+                else:
+                    success = False
+                    
+            self.log_test(
+                "Session Creation",
+                success,
+                f"Status: {response.status_code}, Session ID: {self.session_id}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Session Creation", False, f"Error: {str(e)}")
+            return False
+
+    def test_session_get(self) -> bool:
+        """Test getting session details"""
+        if not self.session_id:
+            self.log_test("Get Session", False, "No session ID available")
+            return False
+            
+        try:
+            response = requests.get(
+                f"{self.base_url}/session/{self.session_id}",
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["id", "device_type", "region", "webauthn_status", "camera_status"]
+                success = all(key in data for key in required_keys)
+                
+            self.log_test(
+                "Get Session",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Get Session", False, f"Error: {str(e)}")
+            return False
+
+    def test_permissions_update(self) -> bool:
+        """Test updating session permissions"""
+        if not self.session_id:
+            self.log_test("Update Permissions", False, "No session ID available")
+            return False
+            
+        try:
+            payload = {
+                "webauthn_status": True,
+                "camera_status": True
+            }
+            
+            response = requests.patch(
+                f"{self.base_url}/session/{self.session_id}/permissions",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = data.get("status") == "updated" and "permissions" in data
+                
+            self.log_test(
+                "Update Permissions",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Update Permissions", False, f"Error: {str(e)}")
+            return False
+
+    def test_step_update(self) -> bool:
+        """Test updating enrollment step"""
+        if not self.session_id:
+            self.log_test("Update Step", False, "No session ID available")
+            return False
+            
+        try:
+            payload = {
+                "step": 1,
+                "status": "completed",
+                "data": {"test": "webauthn_completed"}
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/session/{self.session_id}/step",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = data.get("status") == "updated" and data.get("step") == 1
+                
+            self.log_test(
+                "Update Step",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Update Step", False, f"Error: {str(e)}")
+            return False
+
+    def test_quantum_challenge(self) -> bool:
+        """Test quantum-resistant challenge generation"""
+        try:
+            payload = {
+                "challenge_type": "biometric_enrollment",
+                "difficulty_level": "high"
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/quantum-challenge",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=30
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["challenge", "public_key", "signature", "algorithm"]
+                success = all(key in data for key in required_keys)
+                
+                if success:
+                    success = "CRYSTALS-Dilithium-5" in data.get("algorithm", "")
+                    
+            self.log_test(
+                "Quantum Challenge",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Quantum Challenge", False, f"Error: {str(e)}")
+            return False
+
+    def test_chat_endpoint(self) -> bool:
+        """Test chat with Claude Sonnet 4.5"""
+        try:
+            payload = {
+                "message": "What is BioPass Swarm?",
+                "session_id": self.session_id or "test_session"
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/chat",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=30
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_keys = ["response", "session_id"]
+                success = all(key in data for key in required_keys)
+                
+                if success:
+                    # Check if response contains relevant content
+                    response_text = data.get("response", "").lower()
+                    success = len(response_text) > 10 and any(
+                        keyword in response_text 
+                        for keyword in ["biopass", "biometric", "authentication", "security"]
+                    )
+                    
+            self.log_test(
+                "Chat Endpoint (Claude)",
+                success,
+                f"Status: {response.status_code}",
+                {"response_length": len(data.get("response", "")) if success else 0}
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Chat Endpoint (Claude)", False, f"Error: {str(e)}")
+            return False
+
+    def test_recovery_email(self) -> bool:
+        """Test recovery email setting"""
+        if not self.session_id:
+            self.log_test("Recovery Email", False, "No session ID available")
+            return False
+            
+        try:
+            payload = {
+                "session_id": self.session_id,
+                "email": "test@biopass.com"
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/recovery-email",
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = data.get("status") == "saved" and data.get("email") == "test@biopass.com"
+                
+            self.log_test(
+                "Recovery Email",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("Recovery Email", False, f"Error: {str(e)}")
+            return False
+
+    def test_external_status(self) -> bool:
+        """Test external BioPass API status"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/external/status",
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                # Accept both connected and unavailable as valid responses
+                success = "status" in data and data["status"] in ["connected", "unavailable"]
+                
+            self.log_test(
+                "External API Status",
+                success,
+                f"Status: {response.status_code}",
+                response.json() if success else response.text
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("External API Status", False, f"Error: {str(e)}")
+            return False
+
+    def test_external_privacy_policy(self) -> bool:
+        """Test external privacy policy endpoint"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/external/privacy-policy",
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = "policy" in data and len(data["policy"]) > 10
+                
+            self.log_test(
+                "External Privacy Policy",
+                success,
+                f"Status: {response.status_code}",
+                {"policy_length": len(data.get("policy", "")) if success else 0}
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("External Privacy Policy", False, f"Error: {str(e)}")
+            return False
+
+    def test_external_usage_guide(self) -> bool:
+        """Test external usage guide endpoint"""
+        try:
+            response = requests.get(
+                f"{self.base_url}/external/usage-guide",
+                timeout=15
+            )
+            
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                success = "guide" in data and len(data["guide"]) > 10
+                
+            self.log_test(
+                "External Usage Guide",
+                success,
+                f"Status: {response.status_code}",
+                {"guide_length": len(data.get("guide", "")) if success else 0}
+            )
+            return success
+            
+        except Exception as e:
+            self.log_test("External Usage Guide", False, f"Error: {str(e)}")
+            return False
+
+    def run_all_tests(self) -> Dict[str, Any]:
+        """Run all API tests"""
+        print("🚀 Starting BioPass Swarm Backend API Tests")
+        print(f"📡 Testing API at: {self.base_url}")
+        print("=" * 60)
+        
+        # Core API tests
+        self.test_api_root()
+        self.test_session_create()
+        self.test_session_get()
+        self.test_permissions_update()
+        self.test_step_update()
+        self.test_quantum_challenge()
+        self.test_chat_endpoint()
+        self.test_recovery_email()
+        
+        # External API tests
+        self.test_external_status()
+        self.test_external_privacy_policy()
+        self.test_external_usage_guide()
+        
+        # Summary
+        print("=" * 60)
+        print(f"📊 Test Results: {self.tests_passed}/{self.tests_run} passed")
+        success_rate = (self.tests_passed / self.tests_run * 100) if self.tests_run > 0 else 0
+        print(f"📈 Success Rate: {success_rate:.1f}%")
+        
+        if self.tests_passed == self.tests_run:
+            print("🎉 All tests passed!")
+        else:
+            print("⚠️  Some tests failed. Check details above.")
+            
+        return {
+            "total_tests": self.tests_run,
+            "passed_tests": self.tests_passed,
+            "success_rate": success_rate,
+            "test_results": self.test_results,
+            "session_id": self.session_id
+        }
+
+def main():
+    """Main test execution"""
+    tester = BioPassAPITester()
+    results = tester.run_all_tests()
+    
+    # Save results to file
+    with open("/app/test_reports/backend_test_results.json", "w") as f:
+        json.dump(results, f, indent=2)
+    
+    # Return appropriate exit code
+    return 0 if results["passed_tests"] == results["total_tests"] else 1
+
+if __name__ == "__main__":
+    sys.exit(main())
