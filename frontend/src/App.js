@@ -1,6 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import BioPassHome from "./pages/BioPassHome";
+import AuthPage from "./pages/AuthPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import BioWalletPage from "./pages/BioWalletPage";
+import UpdatesPage from "./pages/UpdatesPage";
 import "@/App.css";
 
 function App() {
@@ -9,6 +13,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<BioPassHome />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/wallet" element={<BioWalletPage />} />
+          <Route path="/updates" element={<UpdatesPage />} />
         </Routes>
       </BrowserRouter>
       <Toaster 
