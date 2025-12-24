@@ -18,6 +18,7 @@ app = FastAPI(title="BioPass Swarm Backend - Multi-Agent Architecture")
 
 # Include routers
 app.include_router(auth.router, prefix="/api")
+app.include_router(vault.router, prefix="/api")
 app.include_router(session.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(wallet.router, prefix="/api")
