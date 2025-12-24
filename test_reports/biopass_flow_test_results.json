@@ -1,0 +1,125 @@
+{
+  "total_tests": 13,
+  "passed_tests": 6,
+  "success_rate": 46.15384615384615,
+  "test_results": [
+    {
+      "test_name": "Health Check",
+      "success": false,
+      "details": "Error: Expecting value: line 1 column 1 (char 0)",
+      "response_data": null,
+      "timestamp": "2025-12-24T16:47:39.235502"
+    },
+    {
+      "test_name": "Create Session",
+      "success": true,
+      "details": "Status: 200, Session ID: b76ce950-b29b-47b7-8b93-011b8dec26a8",
+      "response_data": {
+        "session_id": "b76ce950-b29b-47b7-8b93-011b8dec26a8",
+        "device_type": "web",
+        "guardians_ready": 7,
+        "threshold": "5-of-7",
+        "encryption": "CRYSTALS-Kyber-1024"
+      },
+      "timestamp": "2025-12-24T16:47:39.275236"
+    },
+    {
+      "test_name": "Complete Enrollment",
+      "success": false,
+      "details": "Status: 422, User ID: None",
+      "response_data": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"body\",\"session_id\"],\"msg\":\"Field required\",\"input\":{\"fingerprint_data\":\"mock_fingerprint_hash_12345\",\"face_data\":\"mock_face_encoding_67890\",\"heartbeat_data\":\"mock_heartbeat_pattern_abcde\"},\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"},{\"type\":\"dict_type\",\"loc\":[\"body\",\"fingerprint_data\"],\"msg\":\"Input should be a valid dictionary\",\"input\":\"mock_fingerprint_hash_12345\",\"url\":\"https://errors.pydantic.dev/2.12/v/dict_type\"},{\"type\":\"dict_type\",\"loc\":[\"body\",\"face_data\"],\"msg\":\"Input should be a valid dictionary\",\"input\":\"mock_face_encoding_67890\",\"url\":\"https://errors.pydantic.dev/2.12/v/dict_type\"},{\"type\":\"dict_type\",\"loc\":[\"body\",\"heartbeat_data\"],\"msg\":\"Input should be a valid dictionary\",\"input\":\"mock_heartbeat_pattern_abcde\",\"url\":\"https://errors.pydantic.dev/2.12/v/dict_type\"}]}",
+      "timestamp": "2025-12-24T16:47:39.310613"
+    },
+    {
+      "test_name": "Verify User ID Generated",
+      "success": false,
+      "details": "No user ID generated",
+      "response_data": null,
+      "timestamp": "2025-12-24T16:47:39.311049"
+    },
+    {
+      "test_name": "Send ID Email",
+      "success": false,
+      "details": "Status: 400",
+      "response_data": "{\"detail\":\"Enrollment not complete\"}",
+      "timestamp": "2025-12-24T16:47:39.348671"
+    },
+    {
+      "test_name": "Vault Upload",
+      "success": true,
+      "details": "Status: 200, File ID: ff159eec-200b-46b8-ab60-08fe1c1bed25",
+      "response_data": {
+        "status": "success",
+        "file_id": "ff159eec-200b-46b8-ab60-08fe1c1bed25",
+        "filename": "test_document.txt",
+        "message": "File encrypted and stored in Bio-Vault"
+      },
+      "timestamp": "2025-12-24T16:47:39.391218"
+    },
+    {
+      "test_name": "Vault List Files",
+      "success": true,
+      "details": "Status: 200, Files count: 1",
+      "response_data": {
+        "files_count": 1
+      },
+      "timestamp": "2025-12-24T16:47:39.423083"
+    },
+    {
+      "test_name": "Vault Lock File",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "success",
+        "file_id": "ff159eec-200b-46b8-ab60-08fe1c1bed25",
+        "is_locked": true
+      },
+      "timestamp": "2025-12-24T16:47:39.455892"
+    },
+    {
+      "test_name": "Vault Delete File",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "status": "success",
+        "message": "File permanently destroyed"
+      },
+      "timestamp": "2025-12-24T16:47:39.487555"
+    },
+    {
+      "test_name": "Auth Signup",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "success": true,
+        "message": "Account created. Complete biometric enrollment to get your Bio Key.",
+        "temp_token": "LbSzdjqwvFGBRocl8gKU9kFCEx8zDrOkNklVvi45IpU="
+      },
+      "timestamp": "2025-12-24T16:47:39.534146"
+    },
+    {
+      "test_name": "Link BioKey",
+      "success": false,
+      "details": "No user ID available",
+      "response_data": null,
+      "timestamp": "2025-12-24T16:47:39.534675"
+    },
+    {
+      "test_name": "Reset Password",
+      "success": false,
+      "details": "No user ID available",
+      "response_data": null,
+      "timestamp": "2025-12-24T16:47:39.534693"
+    },
+    {
+      "test_name": "Sign In with New Password",
+      "success": false,
+      "details": "Status: 401",
+      "response_data": "{\"detail\":\"Invalid credentials\"}",
+      "timestamp": "2025-12-24T16:47:39.569631"
+    }
+  ],
+  "session_id": "b76ce950-b29b-47b7-8b93-011b8dec26a8",
+  "user_id": null,
+  "file_id": "ff159eec-200b-46b8-ab60-08fe1c1bed25"
+}
