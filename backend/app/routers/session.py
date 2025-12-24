@@ -162,6 +162,25 @@ async def complete_enrollment(session_id: str, data: EnrollmentComplete):
     })
     
     return {
+
+@router.post("/session/send-id-email")
+async def send_id_email(data: EnrollmentEmailRequest):
+    """Send User ID via email after enrollment"""
+    session = await db.sessions.find_one({"id": data.session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if not session.get("enrollment_complete"):
+        raise HTTPException(status_code=400, detail="Enrollment not complete")
+    
+    user_id = session.get("user_id")
+    public_key = session.get("public_key")
+    
+    # Send email (mock or real)
+    await send_enrollment_email(data.email, user_id, public_key)
+    
+    return {"status": "success", "message": f"Email sent to {data.email}"}
+
         "status": "enrollment_complete",
         "user_id": user_id,
         "public_key": keypair["public_key"],
