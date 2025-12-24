@@ -277,16 +277,19 @@ export default function BioPassHome() {
     try {
       setIsProcessing(true);
       setStepStatuses((prev) => ({ ...prev, 1: "in_progress" }));
+      
+      toast.info("🔒 Place your finger on the sensor or use device biometrics");
 
       // Start 10-second timer
       let timer = 10;
+      let touchDetected = false;
       const timerInterval = setInterval(() => {
         timer--;
         setStepTimers((prev) => ({ ...prev, 1: timer }));
         if (timer <= 0) clearInterval(timerInterval);
       }, 1000);
 
-      // Try WebAuthn first
+      // Try WebAuthn first (real biometric)
       if (window.PublicKeyCredential) {
         const available =
           await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
@@ -295,6 +298,7 @@ export default function BioPassHome() {
           crypto.getRandomValues(challenge);
 
           try {
+            toast.info("👆 Touch sensor activated - waiting for fingerprint...");
             const credential = await navigator.credentials.create({
               publicKey: {
                 challenge: challenge,
@@ -317,7 +321,9 @@ export default function BioPassHome() {
             });
 
             if (credential) {
+              touchDetected = true;
               setWebAuthnGranted(true);
+              toast.success("✅ Fingerprint captured!");
               setBiometricData((prev) => ({
                 ...prev,
                 fingerprint: {
@@ -328,8 +334,11 @@ export default function BioPassHome() {
               }));
             }
           } catch (e) {
-            console.log("WebAuthn cancelled, using simulation");
+            console.log("WebAuthn error:", e);
+            toast.warning("Using simulated fingerprint scan");
           }
+        } else {
+          toast.warning("No biometric sensor detected, using simulation");
         }
       }
 
@@ -338,13 +347,15 @@ export default function BioPassHome() {
       clearInterval(timerInterval);
 
       // If no WebAuthn, simulate fingerprint
-      if (!biometricData.fingerprint) {
+      if (!touchDetected && !biometricData.fingerprint) {
+        toast.info("📱 Simulated fingerprint scan (10 ridges detected)");
         setBiometricData((prev) => ({
           ...prev,
           fingerprint: {
             type: "simulated",
             entropy: Array.from(crypto.getRandomValues(new Uint8Array(32))),
             timestamp: Date.now(),
+            ridges_detected: 10,
           },
         }));
       }
@@ -358,12 +369,13 @@ export default function BioPassHome() {
       });
 
       setStepStatuses((prev) => ({ ...prev, 1: "completed" }));
-      toast.success("Step 1: Fingerprint/WebAuthn captured!");
+      toast.success("✅ Step 1: Fingerprint captured successfully!");
       setOpenSteps([2]);
       setCurrentStep(2);
     } catch (error) {
       console.error("Step 1 error:", error);
-      toast.error("Fingerprint capture failed");
+      toast.error("❌ Fingerprint capture failed");
+      setStepStatuses((prev) => ({ ...prev, 1: "pending" }));
     } finally {
       setIsProcessing(false);
     }
