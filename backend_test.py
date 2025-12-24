@@ -42,19 +42,22 @@ class BioPassSwarmTester:
         print()
 
     def test_api_root(self) -> bool:
-        """Test API root endpoint"""
+        """Test API root endpoint - should show v2.0 Multi-Agent Architecture"""
         try:
             response = requests.get(f"{self.base_url}/", timeout=10)
             success = response.status_code == 200
             
             if success:
                 data = response.json()
-                expected_keys = ["message", "status"]
+                expected_keys = ["message", "status", "guardians", "threshold", "encryption"]
                 has_keys = all(key in data for key in expected_keys)
-                success = has_keys and "BioPass Swarm" in data.get("message", "")
+                success = (has_keys and 
+                          "Multi-Agent Architecture" in data.get("message", "") and
+                          data.get("guardians") == 7 and
+                          data.get("threshold") == "5-of-7")
                 
             self.log_test(
-                "API Root Endpoint", 
+                "API Root Endpoint (v2.0)", 
                 success,
                 f"Status: {response.status_code}",
                 response.json() if success else response.text
@@ -62,7 +65,7 @@ class BioPassSwarmTester:
             return success
             
         except Exception as e:
-            self.log_test("API Root Endpoint", False, f"Error: {str(e)}")
+            self.log_test("API Root Endpoint (v2.0)", False, f"Error: {str(e)}")
             return False
 
     def test_session_create(self) -> bool:
