@@ -1271,6 +1271,17 @@ export default function BioPassHome() {
                   <p className="text-xs text-slate-500 mt-2">
                     Quantum-protected • 7 Guardians • Auto-destruct in 8s
                   </p>
+                  <div className="mt-4 flex justify-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowEmailModal(true)}
+                      className="border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10"
+                    >
+                      <Mail className="w-4 h-4 mr-2" />
+                      Email ID to Me
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Device Lock Options */}
