@@ -14,6 +14,7 @@ from ..config import BIOPASS_API_URL
 from ..models import (
     SessionCreate, BiometricStepData, EnrollmentComplete, 
     AppLockUpdate, DeviceLockUpdate, QuantumChallengeRequest
+from ..services.email_service import send_enrollment_email
 )
 from ..crypto import crypto
 from ..agents.coordinator import coordinator
