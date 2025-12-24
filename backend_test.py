@@ -118,7 +118,8 @@ class BioPassSwarmTester:
         except Exception as e:
             self.log_test("Guardians Status", False, f"Error: {str(e)}")
             return False
-        """Test session creation with quantum keys"""
+    def test_session_create(self) -> bool:
+        """Test session creation"""
         try:
             payload = {
                 "device_type": "web",
@@ -137,12 +138,14 @@ class BioPassSwarmTester:
             
             if success:
                 data = response.json()
-                required_keys = ["session_id", "public_key", "device_type", "quantum_algorithm"]
+                required_keys = ["session_id", "device_type", "guardians_ready", "threshold", "encryption"]
                 has_keys = all(key in data for key in required_keys)
                 
                 if has_keys:
                     self.session_id = data["session_id"]
-                    success = data["quantum_algorithm"] == "CRYSTALS-Kyber-1024"
+                    success = (data["guardians_ready"] == 7 and
+                             data["threshold"] == "5-of-7" and
+                             "CRYSTALS-Kyber-1024" in data["encryption"])
                 else:
                     success = False
                     
