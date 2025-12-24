@@ -122,11 +122,24 @@ class BioPassFlowTester:
             return False
             
         try:
-            # Mock biometric data
+            # Mock biometric data - needs to be dict format as per models
             payload = {
-                "fingerprint_data": "mock_fingerprint_hash_12345",
-                "face_data": "mock_face_encoding_67890",
-                "heartbeat_data": "mock_heartbeat_pattern_abcde"
+                "session_id": self.session_id,
+                "fingerprint_data": {
+                    "hash": "mock_fingerprint_hash_12345",
+                    "quality": 95,
+                    "template": "encoded_fingerprint_template"
+                },
+                "face_data": {
+                    "encoding": "mock_face_encoding_67890",
+                    "confidence": 98,
+                    "landmarks": [1, 2, 3, 4, 5]
+                },
+                "heartbeat_data": {
+                    "pattern": "mock_heartbeat_pattern_abcde",
+                    "bpm": 72,
+                    "variability": 0.05
+                }
             }
             
             response = requests.post(
