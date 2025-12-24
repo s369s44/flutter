@@ -1083,7 +1083,13 @@ export default function BioPassHome() {
                               playsInline
                               muted
                               className="w-full h-full object-cover"
+                              style={{ transform: 'scaleX(-1)' }}
                             />
+                            {!cameraStream && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                                <p className="text-slate-400 text-sm">Camera loading...</p>
+                              </div>
+                            )}
                           </div>
                           {stepStatuses[2] === "in_progress" && (
                             <>
