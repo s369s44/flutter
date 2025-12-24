@@ -798,7 +798,7 @@ export default function BioPassHome() {
             transition={{ delay: 0.2 }}
             className="biopass-subtitle"
           >
-            Universal quantum-safe biometric access
+            Universal quantum-safe biometric access · Unique world security system
           </motion.p>
         </header>
 
