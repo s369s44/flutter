@@ -494,6 +494,10 @@ export default function BioPassHome() {
       setUserId(response.data.user_id);
       setEnrollmentComplete(true);
       setActiveTab("dashboard");
+      
+      // Store in localStorage
+      localStorage.setItem("biopass_user_id", response.data.user_id);
+      localStorage.setItem("biopass_token", response.data.public_key);
 
       toast.success(`Enrollment complete! Your ID: ${response.data.user_id}`);
 
