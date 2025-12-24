@@ -1488,7 +1488,7 @@ export default function BioPassHome() {
                     Bio-Vault
                   </h3>
                   <p className="text-xs text-slate-400">
-                    Securely store files with quantum encryption
+                    Securely store documents, images, videos with quantum encryption
                   </p>
                 </div>
                 <div>
@@ -1520,7 +1520,7 @@ export default function BioPassHome() {
                   <File className="w-12 h-12 text-slate-600 mx-auto mb-4" />
                   <p className="text-slate-400">Vault is empty</p>
                   <p className="text-xs text-slate-500 mt-1">
-                    Upload documents or images to encrypt them
+                    Upload documents, images, or videos to encrypt them
                   </p>
                 </div>
               ) : (
