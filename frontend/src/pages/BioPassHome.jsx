@@ -1525,14 +1525,31 @@ export default function BioPassHome() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {vaultFiles.map((file) => (
+                  {vaultFiles.map((file) => {
+                    // Detect file type
+                    const fileName = file.original_name.toLowerCase();
+                    let fileIcon = File;
+                    let iconColor = "text-cyan-400";
+                    let bgColor = "bg-cyan-900/20";
+                    
+                    if (fileName.match(/\.(jpg|jpeg|png|gif|webp|svg)$/)) {
+                      fileIcon = Image;
+                      iconColor = "text-purple-400";
+                      bgColor = "bg-purple-900/20";
+                    } else if (fileName.match(/\.(mp4|mov|avi|mkv|webm)$/)) {
+                      fileIcon = Video;
+                      iconColor = "text-pink-400";
+                      bgColor = "bg-pink-900/20";
+                    }
+                    
+                    return (
                     <div
                       key={file.file_id}
                       className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-400/30 transition-colors"
                     >
                       <div className="flex items-center gap-3 overflow-hidden">
-                        <div className="w-10 h-10 rounded-lg bg-cyan-900/20 flex items-center justify-center shrink-0">
-                          <File className="w-5 h-5 text-cyan-400" />
+                        <div className={`w-10 h-10 rounded-lg ${bgColor} flex items-center justify-center shrink-0`}>
+                          {React.createElement(fileIcon, { className: `w-5 h-5 ${iconColor}` })}
                         </div>
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-white truncate">
@@ -1552,6 +1569,7 @@ export default function BioPassHome() {
                           className={`h-8 w-8 ${
                             file.is_locked ? "text-red-400" : "text-green-400"
                           }`}
+                          title={file.is_locked ? "Unlock" : "Lock"}
                         >
                           {file.is_locked ? (
                             <Lock className="w-4 h-4" />
@@ -1564,12 +1582,13 @@ export default function BioPassHome() {
                           size="icon"
                           onClick={() => deleteFile(file.file_id)}
                           className="h-8 w-8 text-slate-400 hover:text-red-400 hover:bg-red-400/10"
+                          title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
-                  ))}
+                  )})}
                 </div>
               )}
             </div>
