@@ -1167,17 +1167,6 @@ export default function BioPassHome() {
                         >
                           Grant Camera Access
                         </Button>
-                  </div>
-                  <div className="mt-4 flex justify-center">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowEmailModal(true)}
-                      className="border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10"
-                    >
-                      <Mail className="w-4 h-4 mr-2" />
-                      Email ID to Me
-                    </Button>
 
                       ) : (
                         <>
