@@ -55,6 +55,13 @@ async def create_session(data: SessionCreate):
     
     await db.sessions.insert_one(session_doc)
     
+    # Log to ultra memory
+    coordinator.add_ultra_memory(
+        "system",
+        f"New session created: {session_id[:8]}...",
+        {"device": data.device_type, "region": data.region}
+    )
+    
     return {
         "session_id": session_id,
         "device_type": data.device_type,
