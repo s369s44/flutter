@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BioPass Swarm Backend API Testing Suite
-Tests all backend endpoints for functionality and integration
+BioPass Swarm v2.0 Backend API Testing Suite
+Tests Multi-Agent Guardian architecture and biometric features
 """
 
 import requests
@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 from typing import Dict, Any, Optional
 
-class BioPassAPITester:
+class BioPassSwarmTester:
     def __init__(self, base_url: str = "https://secure-biopass.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.session_id = None
