@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 class BioPassSwarmTester:
-    def __init__(self, base_url: str = "https://secure-biopass.preview.emergentagent.com/api"):
+    def __init__(self, base_url: str = "https://swarm-auth.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.session_id = None
         self.tests_run = 0
