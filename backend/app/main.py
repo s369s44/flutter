@@ -4,7 +4,6 @@ import logging
 from .config import CORS_ORIGINS
 from .database import close_mongo_connection
 from .routers import auth, session, chat, wallet, system, vault
-from .routers import auth, session, chat, wallet, system
 
 # Configure logging
 logging.basicConfig(
