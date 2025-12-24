@@ -5,6 +5,7 @@ import AuthPage from "./pages/AuthPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import BioWalletPage from "./pages/BioWalletPage";
 import UpdatesPage from "./pages/UpdatesPage";
+import MemoryPage from "./pages/MemoryPage";
 import "@/App.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/wallet" element={<BioWalletPage />} />
           <Route path="/updates" element={<UpdatesPage />} />
+          <Route path="/memory" element={<MemoryPage />} />
         </Routes>
       </BrowserRouter>
       <Toaster 
