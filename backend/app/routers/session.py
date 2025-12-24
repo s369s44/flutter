@@ -9,13 +9,13 @@ from datetime import datetime, timezone
 from Crypto.Random import get_random_bytes
 
 from ..database import db
-    EnrollmentEmailRequest,
 from ..config import BIOPASS_API_URL
 from ..models import (
     SessionCreate, BiometricStepData, EnrollmentComplete, 
-    AppLockUpdate, DeviceLockUpdate, QuantumChallengeRequest
-from ..services.email_service import send_enrollment_email
+    AppLockUpdate, DeviceLockUpdate, QuantumChallengeRequest,
+    EnrollmentEmailRequest
 )
+from ..services.email_service import send_enrollment_email
 from ..crypto import crypto
 from ..agents.coordinator import coordinator
 
@@ -162,25 +162,6 @@ async def complete_enrollment(session_id: str, data: EnrollmentComplete):
     })
     
     return {
-
-@router.post("/session/send-id-email")
-async def send_id_email(data: EnrollmentEmailRequest):
-    """Send User ID via email after enrollment"""
-    session = await db.sessions.find_one({"id": data.session_id})
-    if not session:
-        raise HTTPException(status_code=404, detail="Session not found")
-    
-    if not session.get("enrollment_complete"):
-        raise HTTPException(status_code=400, detail="Enrollment not complete")
-    
-    user_id = session.get("user_id")
-    public_key = session.get("public_key")
-    
-    # Send email (mock or real)
-    await send_enrollment_email(data.email, user_id, public_key)
-    
-    return {"status": "success", "message": f"Email sent to {data.email}"}
-
         "status": "enrollment_complete",
         "user_id": user_id,
         "public_key": keypair["public_key"],
@@ -319,3 +300,21 @@ async def authenticate_user(session_id: str, challenge: str):
         "key_destruction_in": "8 seconds",
         "guardians_responded": ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
     }
+
+@router.post("/session/send-id-email")
+async def send_id_email(data: EnrollmentEmailRequest):
+    """Send User ID via email after enrollment"""
+    session = await db.sessions.find_one({"id": data.session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if not session.get("enrollment_complete"):
+        raise HTTPException(status_code=400, detail="Enrollment not complete")
+    
+    user_id = session.get("user_id")
+    public_key = session.get("public_key")
+    
+    # Send email (mock or real)
+    await send_enrollment_email(data.email, user_id, public_key)
+    
+    return {"status": "success", "message": f"Email sent to {data.email}"}
