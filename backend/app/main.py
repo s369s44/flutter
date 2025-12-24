@@ -3,7 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 import logging
 from .config import CORS_ORIGINS
 from .database import close_mongo_connection
-from .routers import auth, session, chat, wallet, system, vault
+from .routers import auth, session, chat, wallet, system, vault, memory
 
 # Configure logging
 logging.basicConfig(
@@ -22,6 +22,7 @@ app.include_router(session.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(wallet.router, prefix="/api")
 app.include_router(system.router, prefix="/api")
+app.include_router(memory.router, prefix="/api")
 
 # Health check
 @app.get("/health")
