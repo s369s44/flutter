@@ -18,6 +18,7 @@ import {
   Sparkles,
   Target,
   TrendingUp,
+  Mic,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +38,17 @@ export default function UpdatesPage() {
   const updates = [
     {
       id: 1,
+      category: "features",
+      version: "v2.2",
+      title: "Voice Biometric Lock/Unlock",
+      description: "Unlock apps, vault, and device using your unique voice signature. Advanced voiceprint authentication with anti-spoofing.",
+      status: "coming",
+      date: "Q1 2026",
+      icon: Mic,
+      color: "cyan",
+    },
+    {
+      id: 2,
       category: "security",
       version: "v2.1",
       title: "Ultra HD Quantum Encryption",
@@ -44,7 +56,7 @@ export default function UpdatesPage() {
       status: "coming",
       date: "Q1 2026",
       icon: Shield,
-      color: "cyan",
+      color: "purple",
     },
     {
       id: 2,
