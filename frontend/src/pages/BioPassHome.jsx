@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate, Link } from "react-router-dom";
 import {
   ShieldCheck,
   Fingerprint,
@@ -30,6 +31,11 @@ import {
   Zap,
   Eye,
   Heart,
+  Wallet,
+  Rocket,
+  FileText,
+  LogIn,
+  LogOut,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
