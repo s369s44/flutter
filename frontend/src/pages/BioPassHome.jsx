@@ -232,6 +232,7 @@ export default function BioPassHome() {
     };
 
     initSession();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Logout handler
@@ -258,6 +259,7 @@ export default function BioPassHome() {
     if (sessionId && enrollmentComplete) {
       fetchLockedApps();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId, enrollmentComplete]);
 
   const fetchLockedApps = async () => {
