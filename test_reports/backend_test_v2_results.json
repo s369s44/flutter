@@ -1,0 +1,159 @@
+{
+  "total_tests": 6,
+  "passed_tests": 5,
+  "success_rate": 83.33333333333334,
+  "test_results": [
+    {
+      "test_name": "API Root Endpoint (v2.0)",
+      "success": true,
+      "details": "Status: 200",
+      "response_data": {
+        "message": "BioPass Swarm API v2.0 - Multi-Agent Architecture",
+        "status": "active",
+        "guardians": 7,
+        "threshold": "5-of-7",
+        "encryption": "CRYSTALS-Kyber-1024 + Dilithium-5"
+      },
+      "timestamp": "2025-12-24T15:13:04.750939"
+    },
+    {
+      "test_name": "Guardians Status (7 Guardians + Coordinator)",
+      "success": true,
+      "details": "Status: 200, Guardians: 7",
+      "response_data": {
+        "coordinator": {
+          "id": "coordinator-main",
+          "name": "Coordinator",
+          "status": "READY",
+          "threshold": "5-of-7"
+        },
+        "guardians": [
+          {
+            "id": "guardian-alpha",
+            "name": "Guardian-Alpha",
+            "region": "North",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775610+00:00"
+          },
+          {
+            "id": "guardian-beta",
+            "name": "Guardian-Beta",
+            "region": "South",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775615+00:00"
+          },
+          {
+            "id": "guardian-gamma",
+            "name": "Guardian-Gamma",
+            "region": "East",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775617+00:00"
+          },
+          {
+            "id": "guardian-delta",
+            "name": "Guardian-Delta",
+            "region": "West",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775618+00:00"
+          },
+          {
+            "id": "guardian-epsilon",
+            "name": "Guardian-Epsilon",
+            "region": "Central",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775619+00:00"
+          },
+          {
+            "id": "guardian-zeta",
+            "name": "Guardian-Zeta",
+            "region": "Pacific",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775620+00:00"
+          },
+          {
+            "id": "guardian-eta",
+            "name": "Guardian-Eta",
+            "region": "Atlantic",
+            "status": "READY",
+            "has_share": false,
+            "last_heartbeat": "2025-12-24T15:09:32.775620+00:00"
+          }
+        ],
+        "system_ready": true
+      },
+      "timestamp": "2025-12-24T15:13:04.790153"
+    },
+    {
+      "test_name": "Session Creation",
+      "success": true,
+      "details": "Status: 200, Session ID: f8a2a8a4-bf38-4e9b-ad06-6b2d3702fadb",
+      "response_data": {
+        "session_id": "f8a2a8a4-bf38-4e9b-ad06-6b2d3702fadb",
+        "device_type": "web",
+        "guardians_ready": 7,
+        "threshold": "5-of-7",
+        "encryption": "CRYSTALS-Kyber-1024"
+      },
+      "timestamp": "2025-12-24T15:13:04.825528"
+    },
+    {
+      "test_name": "Apps List",
+      "success": true,
+      "details": "Status: 200, Apps: 20, Categories: 8",
+      "response_data": {
+        "apps_count": 20,
+        "categories": [
+          "messaging",
+          "social",
+          "entertainment",
+          "music",
+          "productivity",
+          "media",
+          "finance",
+          "system"
+        ]
+      },
+      "timestamp": "2025-12-24T15:13:04.863814"
+    },
+    {
+      "test_name": "Biometric Steps (1: Fingerprint, 2: Face, 3: Heartbeat)",
+      "success": true,
+      "details": "Step1: True, Step2: True, Step3: True",
+      "response_data": {
+        "step1_response": {
+          "status": "completed",
+          "step": 1,
+          "step_name": "fingerprint",
+          "next_step": 2
+        },
+        "step2_response": {
+          "status": "completed",
+          "step": 2,
+          "step_name": "face",
+          "next_step": 3
+        },
+        "step3_response": {
+          "status": "completed",
+          "step": 3,
+          "step_name": "heartbeat",
+          "next_step": null
+        }
+      },
+      "timestamp": "2025-12-24T15:13:04.971155"
+    },
+    {
+      "test_name": "Complete Enrollment (User ID Generation)",
+      "success": false,
+      "details": "Status: 200, User ID: N/A",
+      "response_data": "{\"status\":\"enrollment_complete\",\"user_id\":\"BPS-1021-2BC4-BD17\",\"public_key\":\"ReQF+vR6YXa+BJhL8/cmwZqpz2srWHICWkd/snDheC8=\",\"algorithm\":\"CRYSTALS-Kyber-1024\",\"security_level\":\"NIST Level 5\",\"guardians\":{\"total\":7,\"holding_shares\":7,\"threshold\":5},\"key_destruction\":\"8 seconds after use\",\"message\":\"Your identity is now quantum-protected!\"}",
+      "timestamp": "2025-12-24T15:13:05.079186"
+    }
+  ],
+  "session_id": "f8a2a8a4-bf38-4e9b-ad06-6b2d3702fadb"
+}
