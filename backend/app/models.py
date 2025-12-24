@@ -61,3 +61,8 @@ class ResetPasswordRequest(BaseModel):
     email: str
     bio_key: str
     new_password: str
+
+
+class EnrollmentEmailRequest(BaseModel):
+    session_id: str
+    email: str
