@@ -407,13 +407,13 @@ export default function BioPassHome() {
       {/* Main Container */}
       <div className="biopass-container">
         {/* Header */}
-        <header className="biopass-header">
+        <header className="biopass-header relative z-20">
           <div className="flex justify-end gap-2 mb-6">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setShowChat(true)}
-              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10"
+              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30"
               data-testid="help-chat-btn"
             >
               <HelpCircle className="w-5 h-5" />
@@ -422,7 +422,7 @@ export default function BioPassHome() {
               variant="ghost"
               size="icon"
               onClick={() => setShowChat(true)}
-              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10"
+              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30"
               data-testid="chat-btn"
             >
               <MessageSquare className="w-5 h-5" />
