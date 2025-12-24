@@ -28,7 +28,7 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # External BioPass API
-BIOPASS_API_URL = "https://cmj1nqwjn7tk4yprgudqvroco.agent.pa.smyth.ai"
+BIOPASS_API_URL = os.environ.get('BIOPASS_API_URL', 'https://cmj1nqwjn7tk4yprgudqvroco.agent.pa.smyth.ai')
 
 # Create the main app
 app = FastAPI(title="BioPass Swarm Backend - Multi-Agent Architecture")
