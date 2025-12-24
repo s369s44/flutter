@@ -1485,6 +1485,103 @@ export default function BioPassHome() {
                   <p className="note-text">
                     <strong>Auto-Destruct:</strong> Key destroyed 8 seconds after
                     use.
+          {/* VAULT TAB */}
+          <TabsContent value="vault" className="mt-6">
+            <div className="glass-card rounded-xl p-6">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-lg font-heading text-white flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5 text-cyan-400" />
+                    Bio-Vault
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Securely store files with quantum encryption
+                  </p>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    id="vault-upload"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
+                  <label htmlFor="vault-upload">
+                    <Button
+                      as="span"
+                      disabled={isUploading}
+                      className="bg-cyan-400 text-black hover:bg-cyan-300 cursor-pointer"
+                    >
+                      {isUploading ? (
+                        <RefreshCw className="w-4 h-4 animate-spin mr-2" />
+                      ) : (
+                        <Upload className="w-4 h-4 mr-2" />
+                      )}
+                      Upload File
+                    </Button>
+                  </label>
+                </div>
+              </div>
+
+              {vaultFiles.length === 0 ? (
+                <div className="text-center py-12 border border-dashed border-white/10 rounded-lg">
+                  <File className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                  <p className="text-slate-400">Vault is empty</p>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Upload documents or images to encrypt them
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {vaultFiles.map((file) => (
+                    <div
+                      key={file.file_id}
+                      className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-400/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="w-10 h-10 rounded-lg bg-cyan-900/20 flex items-center justify-center shrink-0">
+                          <File className="w-5 h-5 text-cyan-400" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-white truncate">
+                            {file.original_name}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {(file.size / 1024).toFixed(1)} KB •{" "}
+                            {new Date(file.uploaded_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => toggleFileLock(file.file_id, file.is_locked)}
+                          className={`h-8 w-8 ${
+                            file.is_locked ? "text-red-400" : "text-green-400"
+                          }`}
+                        >
+                          {file.is_locked ? (
+                            <Lock className="w-4 h-4" />
+                          ) : (
+                            <Unlock className="w-4 h-4" />
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => deleteFile(file.file_id)}
+                          className="h-8 w-8 text-slate-400 hover:text-red-400 hover:bg-red-400/10"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
                   </p>
                 </div>
               </div>
