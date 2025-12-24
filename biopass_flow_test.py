@@ -17,7 +17,10 @@ class BioPassFlowTester:
         self.session_id = None
         self.user_id = None
         self.file_id = None
-        self.auth_email = "test@biopass.com"
+        # Use timestamp to make email unique
+        import time
+        timestamp = str(int(time.time()))
+        self.auth_email = f"test{timestamp}@biopass.com"
         self.auth_password = "TestPassword123!"
         self.new_password = "NewPassword456!"
         self.tests_run = 0
