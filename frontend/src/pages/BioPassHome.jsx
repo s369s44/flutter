@@ -622,25 +622,73 @@ export default function BioPassHome() {
       <div className="biopass-container">
         {/* Header */}
         <header className="biopass-header relative z-20">
-          <div className="flex justify-end gap-2 mb-6">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowChat(true)}
-              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30"
-              data-testid="help-chat-btn"
-            >
-              <HelpCircle className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowChat(true)}
-              className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30"
-              data-testid="chat-btn"
-            >
-              <MessageSquare className="w-5 h-5" />
-            </Button>
+          <div className="flex justify-between items-center mb-6">
+            {/* Left Nav */}
+            <div className="flex gap-2">
+              {isLoggedIn ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="text-slate-400 hover:text-red-400 hover:bg-red-400/10 text-xs"
+                  data-testid="logout-btn"
+                >
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 text-xs"
+                  data-testid="login-btn"
+                >
+                  <LogIn className="w-4 h-4 mr-1" />
+                  Sign In
+                </Button>
+              )}
+            </div>
+            
+            {/* Right Nav */}
+            <div className="flex gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate("/wallet")}
+                className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
+                data-testid="wallet-btn"
+              >
+                <Wallet className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate("/updates")}
+                className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
+                data-testid="updates-btn"
+              >
+                <Rocket className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate("/privacy")}
+                className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
+                data-testid="privacy-btn"
+              >
+                <FileText className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowChat(true)}
+                className="text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 relative z-30 h-8 w-8"
+                data-testid="chat-btn"
+              >
+                <MessageSquare className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
 
           <motion.h1
